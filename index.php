@@ -19,8 +19,22 @@
             color: lightgrey;
         }
 
+        .borderPrenom {
+            border: 2px solid red;
+        }
+
+        .borderRadio {
+            border-color: red;
+            background-color: red;
+            /* Pour changer la couleur de fond */
+            color: green;
+            /* Pour changer la couleur du texte */
+
+        }
+
         .errors {
             margin: 3.5rem;
+
             color: red;
         }
 
@@ -30,7 +44,9 @@
             font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
-
+        hr {
+            width: 100%;
+        }
 
         form {
             border: 2px solid greenyellow;
@@ -41,6 +57,15 @@
         }
     </style>
     <h1>PHP</h1>
+    <?php
+    date_default_timezone_set('Europe/Paris');
+    ?>
+    <?php
+    header("Refresh: 120; url=http://localhost/site/formTest/index.php");
+    ?>
+    <hr>
+    Nous sommes le : <?php echo date('Y-m-d H:i:s'); ?>, et il pleut.
+    <br>
 
     <?php
     print_r($_POST);
@@ -61,33 +86,36 @@
     //             <br>
     //             <input type="submit" name="submit">
     //         </form>
-    // HTML;
-    $showForm = true;
-    //     
+    // HTML;    
     ?>
 
     <?php
-
+    $showForm = true;
+    $borderPrenom = '';
     //IF SUBMIT EXIST
     if (isset($_POST['submit'])) {
         //NAME  AND GENDER OK
         if (!empty(trim($_POST['prenom'])) && isset($_POST['gender'])) {
-                //GREETINGS ?>
+            //GREETINGS 
+    ?>
             <div class="accept">
-               <?php echo 'Bonjour ' . $_POST['gender'] . ' ' . $_POST['prenom'] . ' Comment vas-tu ?';?>
+                <?php echo 'Bonjour ' . $_POST['gender'] . ' ' . $_POST['prenom'] . ' Comment vas-tu ?'; ?>
             </div>
         <?php
             $showForm = false;
-    //ELSE
+            //ELSE
         } else { ?>
             <div class="errors">
                 <?php
                 //IF ALL EMPTY
                 if (empty(trim($_POST['prenom'])) && !isset($_POST['gender'])) {
                     echo 'Veuillez indiquer votre prénom et votre genre SVP.';
+                    $borderPrenom = 'borderPrenom';
+
                     //IF NAME EMPTY
                 } elseif (empty(trim($_POST['prenom']))) {
                     echo $_POST['gender'] . ' Veuillez indiquer votre prénom SVP.';
+                    $borderPrenom = 'borderPrenom';
                     //IF GENDER NOT CHECKED
                 } elseif (!isset($_POST['gender'])) {
                     echo $_POST['prenom'] . 'Veuillez indiquer votre genre SVP.';
@@ -103,23 +131,23 @@
 
         <form method="POST">
             <label for="monsieur">Monsieur</label>
-            <input type="radio" name="gender" value="Monsieur" id="monsieur">
+            <input type="radio" name="gender" value="Monsieur" id="monsieur" >
             <label for="madame">Madame</label>
-            <input type="radio" name="gender" value="Madame" id="madame">
+            <input type="radio" name="gender" value="Madame" id="madame" >
             <br><br>
-            <input type="text" name="prenom" placeholder="Username" value="<?php echo !empty(($_POST['prenom'])) ? $_POST['prenom'] : '' ?>">
+            <input type="text" name="prenom" id="prenom" placeholder="Username" value="<?php echo !empty(($_POST['prenom'])) ? $_POST['prenom'] : '' ?>" 
+            class="<?php echo $borderPrenom; ?> ">
 
             <br>
             <br>
-            <input type="submit" name="submit">
+            <input type="submit" name="submit" id="submit">
         </form>
 
-
+        
     <?php }
 
 
     ?>
-
 </body>
 
 </html>
